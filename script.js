@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!heartsContainer) return;
         const heart = document.createElement('div');
         heart.classList.add('heart');
-        heart.innerHTML = '💖';
+        heart.innerHTML = '❤️';
         heart.style.left = Math.random() * 100 + 'vw';
         const duration = Math.random() * 5 + 8;
         const delay = Math.random() * 2; // Reducido delay inicial
