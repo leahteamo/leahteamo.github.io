@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Primer Mes</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Contenedor para Corazones Flotantes -->
+    <div id="floating-hearts-container"></div>
+    <!-- Contenedor para la Explosión de Clic (se posicionará con JS) -->
+    <div id="click-burst-container"></div>
+
+    <!-- 1. Pantalla Inicial -->
+    <section id="inicio">
+        <div class="contenido-inicio">
+            <p>amor sube el volumen y dale al botón ✨</p>
+            <button id="startButton">Abrir</button>
+        </div>
+        <!-- Flecha Indicadora de Scroll -->
+        <div id="scroll-arrow-container">
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- Contenedor Principal (Slider + Carta) - Oculto inicialmente -->
+    <main id="contenido-principal" style="display: none;">
+
+        <!-- 2. Slider de Fotos -->
+        <section id="slider-section">
+            <div class="swiper-container mi-slider blur-in">
+                <div class="swiper-wrapper">
+                    <!-- Imágenes -->
+                    <div class="swiper-slide">
+                        <img src="img/IMG-20250328-WA0012.jpg" alt="Recuerdo 1" class="slider-image">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="img/IMG-20250328-WA0014.jpg" alt="Recuerdo 2" class="slider-image">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="img/IMG-20250328-WA0013.jpg" alt="Recuerdo 3" class="slider-image">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="img/IMG-20250328-WA0011.jpg" alt="Recuerdo 4" class="slider-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Mini Carta -->
+        <section id="carta-section">
+             <!-- Añadida clase 'stagger-entrance' al contenedor para activar delays en hijos -->
+            <div class="carta-container fade-in-scroll stagger-entrance">
+                <!-- Contenido envuelto para animación escalonada -->
+                <div class="carta-content carta-title">
+                    <h3 class="shine">AAAA</h3>
+                </div>
+                <div class="carta-content carta-p1">
+                    <p id="carta-p1"></p>
+                </div>
+                 <div class="carta-content carta-p2">
+                    <p id="carta-p2"></p>
+                </div>
+                 <div class="carta-content carta-p3">
+                    <p id="carta-p3"></p>
+                </div>
+                 <div class="carta-content carta-firma">
+                    <span class="firma">Con todo mi amor, Darío</span>
+                </div>
+            </div>
+        </section>
+
+    </main> <!-- Fin del contenido principal -->
+
+    <audio id="background-music" src="audio.mp3" loop></audio>
+
+    <!-- Librerías JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+    <!-- Nuestro JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
