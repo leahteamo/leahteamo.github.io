@@ -1,0 +1,187 @@
+/* Reseteo básico y estilo general */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #f0f0f0; overflow-x: hidden; position: relative; }
+
+/* --- Contenedor de Corazones Flotantes (sin cambios) --- */
+#floating-hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+.heart { position: absolute; bottom: -50px; font-size: 20px; color: rgba(231, 76, 60, 0.4); animation: floatUp linear infinite; user-select: none; -webkit-user-select: none; }
+@keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0.6; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+
+/* --- Contenedor para Explosión de Clic --- */
+#click-burst-container {
+    position: absolute; /* Se posiciona con JS */
+    width: 1px;
+    height: 1px;
+    pointer-events: none; /* No interfiere */
+    z-index: 100; /* Encima de casi todo */
+}
+
+/* Estilo Corazón de Explosión */
+.burst-heart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px; /* Tamaño inicial pequeño */
+    height: 15px;
+    background-color: #e74c3c; /* Color base */
+    border-radius: 50% 50% 0 0; /* Forma corazón (simplificada) */
+    transform: rotate(-45deg);
+    opacity: 0.9;
+    animation: burstAnimation 0.7s ease-out forwards;
+}
+.burst-heart::before,
+.burst-heart::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+}
+.burst-heart::before { top: -7.5px; left: 0; }
+.burst-heart::after { top: 0; left: 7.5px; }
+
+@keyframes burstAnimation {
+    0% {
+        transform: scale(0.5) rotate(-45deg);
+        opacity: 1;
+    }
+    100% {
+        /* Se mueve aleatoriamente hacia afuera, escala y desaparece */
+        transform: scale(1.5) rotate(-45deg) translate(var(--translateX, 0px), var(--translateY, 0px));
+        opacity: 0;
+    }
+}
+
+
+/* --- 1. Pantalla Inicial --- */
+#inicio {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('img/fondo_inicio.jpg') no-repeat center center/cover;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    position: relative;
+    z-index: 10;
+    overflow: hidden; /* Prevenir que la flecha se vea si se sale */
+}
+#inicio.hidden { opacity: 0; transform: scale(1.2) rotate(5deg); pointer-events: none; }
+.contenido-inicio p { font-size: 1.4em; margin-bottom: 30px; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); font-weight: bold; }
+#startButton { padding: 18px 40px; font-size: 1.5em; font-weight: bold; color: #ffffff; background: linear-gradient(45deg, #e74c3c, #c0392b); border: none; border-radius: 50px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden; }
+#startButton::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); transition: left 0.6s ease; }
+#startButton:hover::before { left: 100%; }
+#startButton:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(231, 76, 60, 0.6); }
+
+/* --- Flecha Indicadora de Scroll --- */
+#scroll-arrow-container {
+    position: absolute;
+    bottom: 30px; /* Posición desde abajo */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 11; /* Encima del contenido de inicio */
+    transition: opacity 0.5s ease; /* Transición para ocultar */
+}
+#scroll-arrow-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.arrow {
+    width: 20px; /* Tamaño de la flecha */
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.7); /* Borde blanco semi-transparente */
+    border-top: none; /* Quitar borde superior */
+    border-left: none; /* Quitar borde izquierdo */
+    transform: rotate(45deg); /* Rotar para formar la flecha */
+    animation: bounceArrow 2s infinite ease-in-out; /* Animación de rebote */
+}
+
+@keyframes bounceArrow {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.8;
+    }
+    40% {
+        transform: translateY(-15px) rotate(45deg); /* Sube */
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(-8px) rotate(45deg); /* Baja un poco */
+    }
+}
+
+
+/* --- Contenedor Principal --- */
+#contenido-principal { opacity: 0; transition: opacity 1s ease-in 0.3s; position: relative; z-index: 5; }
+#contenido-principal.visible { opacity: 1; }
+
+
+/* --- 2. Slider Section con Efecto 'Cards' --- */
+#slider-section { padding: 50px 0 80px 0; background: none; overflow: visible; min-height: 60vh; display: flex; align-items: center; justify-content: center; }
+
+/* Efecto Blur-in (sin cambios) */
+.mi-slider.blur-in { filter: blur(10px); opacity: 0; transform: scale(0.95); transition: filter 0.8s ease-out, opacity 0.8s ease-out, transform 0.8s ease-out; }
+#contenido-principal.visible .mi-slider.blur-in { filter: blur(0px); opacity: 1; transform: scale(1); }
+
+/* Estilos Swiper 'cards' */
+.mi-slider { width: 300px; height: 450px; border-radius: 18px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }
+.swiper-slide { display: flex; align-items: center; justify-content: center; border-radius: 18px; font-size: 22px; font-weight: bold; color: #fff; background-color: #2c3e50; overflow: hidden; transition: transform 0.4s ease, filter 0.4s ease, box-shadow 0.4s ease; /* Añadida transición para hover y glow */ }
+.slider-image { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+
+/* --- Efecto Glow en Tarjeta Activa --- */
+.swiper-slide-active {
+    box-shadow: 0 0 25px 5px rgba(231, 76, 60, 0.5); /* Glow rojo/naranja */
+    /* Ajusta los valores (blur, spread, color) a tu gusto */
+}
+
+/* --- Efecto Hover en Tarjetas Inactivas --- */
+.swiper-slide:not(.swiper-slide-active):hover {
+    transform: scale(1.03) translateY(-5px); /* Ligeramente más grande y sube */
+    filter: brightness(1.1); /* Un poco más brillante */
+}
+
+
+/* --- 3. Mini Carta --- */
+#carta-section { padding: 60px 20px; display: flex; justify-content: center; align-items: center; margin-top: -30px; position: relative; z-index: 6; }
+.carta-container { max-width: 700px; background-color: rgba(44, 62, 80, 0.9); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); text-align: left; line-height: 1.8; }
+
+/* Animación de entrada de la carta (sin cambios en el contenedor) */
+.fade-in-scroll { opacity: 0; transform: translateY(60px) scale(0.95); transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.fade-in-scroll.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* --- Animación Escalonada del Contenido de la Carta --- */
+.carta-content {
+    opacity: 0;
+    transform: translateY(20px); /* Empieza ligeramente abajo */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+/* Aplicar delays cuando el contenedor es visible */
+.stagger-entrance.visible .carta-title { transition-delay: 0.2s; }
+.stagger-entrance.visible .carta-p1 { transition-delay: 0.4s; } /* El TypeIt empezará aquí */
+.stagger-entrance.visible .carta-p2 { transition-delay: 0.4s; } /* Oculto hasta que TypeIt lo escriba */
+.stagger-entrance.visible .carta-p3 { transition-delay: 0.4s; } /* Oculto hasta que TypeIt lo escriba */
+.stagger-entrance.visible .carta-firma { transition-delay: 0.8s; } /* La firma aparece más tarde */
+
+/* Hacer visible el contenido con delay */
+.stagger-entrance.visible .carta-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Ocultar párrafos que serán escritos por TypeIt hasta que TypeIt los controle */
+#carta-p1, #carta-p2, #carta-p3 { opacity: 0; }
+.stagger-entrance.visible #carta-p1,
+.stagger-entrance.visible #carta-p2,
+.stagger-entrance.visible #carta-p3 { opacity: 1; } /* TypeIt los hará visibles al escribir */
+
+
+/* Efecto Shine para el Título H3 (sin cambios) */
+.shine { font-size: 2em; color: #e74c3c; margin-bottom: 30px; text-align: center; position: relative; overflow: hidden; background: linear-gradient(to right, #e74c3c 20%, #f1c40f 40%, #e74c3c 60%); background-size: 200% auto; color: transparent; background-clip: text; -webkit-background-clip: text; animation: shine-animation 3s linear infinite; }
+@keyframes shine-animation { to { background-position: -200% center; } }
+
+/* Estilos para TypeIt (sin cambios) */
+#carta-section p { font-size: 1.1em; margin-bottom: 20px; color: #dfe6e9; min-height: 1.5em; }
+.ti-cursor { color: #e74c3c; margin-left: 1px; animation: blink-caret 0.75s step-end infinite; }
+.firma { display: block; margin-top: 35px; text-align: right; font-style: italic; font-size: 1.2em; color: #f1c40f; }
+@keyframes blink-caret { from, to { opacity: 0; } 50% { opacity: 1; } }
