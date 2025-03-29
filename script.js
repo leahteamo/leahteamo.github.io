@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const delay = Math.random() * 2; // Reducido delay inicial
         heart.style.animationDuration = duration + 's';
         heart.style.animationDelay = delay + 's';
-        heart.style.fontSize = Math.random() * 45 + 10 + 'px'; // Ajustado tamaño ligeramente
+        heart.style.fontSize = Math.random() * 70 + 10 + 'px'; // Ajustado tamaño ligeramente
         heartsContainer.appendChild(heart);
         setTimeout(() => { heart.remove(); }, (duration + delay + 1) * 1000);
     }
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clickBurstContainer.style.top = `${buttonCenterY}px`;
         clickBurstContainer.style.left = `${buttonCenterX}px`;
 
-        const numberOfHearts = 10 + Math.floor(Math.random() * 6); // Entre 10 y 15 corazones
+        const numberOfHearts = 20 + Math.floor(Math.random() * 9); // Entre 10 y 15 corazones
 
         for (let i = 0; i < numberOfHearts; i++) {
             const burstHeart = document.createElement('div');
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                          typeitInstance = new TypeIt('#carta-p1', { // Usamos variable para control
                              strings: ["Leah, desde que te vi en la rochicaca, mi mundo se iluminó de una forma única. Cada mirada tuya me enamora más y más. Cada momento que compartimos es algo que jamás quiero olvidar."],
-                             speed: 60,
+                             speed: 70,
                              waitUntilVisible: true, // TypeIt espera a que el elemento sea visible en DOM
                              cursorChar: "Te Amo",
                              afterComplete: async (instance) => {
@@ -159,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                  startNextParagraph();
                              }
                          }).go();
-                    }, 500); // Delay que coincide con 'carta-p1' en CSS
+                    }, 600); // Delay que coincide con 'carta-p1' en CSS
 
                     function startNextParagraph() {
                          new TypeIt('#carta-p2', {
                              strings: ["Eres la razón por la que cada día es mejor que el anterior. Tu sonrisa me hace feliz y tu presencia me hace sentir completo."],
-                             speed: 65,
+                             speed: 70,
                              startDelay: 550, // Pausa entre párrafos
                              waitUntilVisible: true,
                              cursorChar: "▋",
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      function startFinalParagraph() {
                          new TypeIt('#carta-p3', {
                              strings: ["Gracias por este primer mes. Leah, Te amo más de lo que puedo demostrar"],
-                             speed: 65,
+                             speed: 70,
                              startDelay: 500,
                              waitUntilVisible: true,
                              cursorChar: "▋",
